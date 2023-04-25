@@ -15,13 +15,16 @@ class CounterScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Riverpod Gestor de Estados'),
+        title: const Text('Riverpod'),
       ),
       body: Center(
         child: Text('Valor: $clickCounter', style: Theme.of(context).textTheme.titleLarge,),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: (){
+          ref.read(counterProvider.notifier).state++;
+          //ref.read(counterProvider.notifier).update((state) => state + 1);
+        },
         child: const Icon(Icons.add),
       ),
     );
