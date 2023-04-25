@@ -25,7 +25,7 @@ class ThemeChangerScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: _ThemChangerView(),
+      body: const _ThemChangerView(),
     );
   }
 }
@@ -37,6 +37,7 @@ class _ThemChangerView extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
 
     final List<Color> colors = ref.watch(colorListProvider);
+    final selectedColor = ref.watch(selectedColorProvider);
 
     return ListView.builder(
       itemCount: colors.length,
@@ -47,9 +48,9 @@ class _ThemChangerView extends ConsumerWidget {
             subtitle: Text('${color.value}'),
             activeColor: color,
             value: index, 
-            groupValue: 0, 
+            groupValue: selectedColor, 
             onChanged: (value) {
-
+              ref.read(selectedColorProvider.notifier).state = index;
             }
           );
       },
