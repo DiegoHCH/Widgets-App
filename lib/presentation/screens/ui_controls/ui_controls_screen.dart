@@ -30,6 +30,10 @@ class _UiControlsViewState extends State<_UiControlsView> {
 
   bool isDeveloper = true;
   Transportation selectedTransportation = Transportation.car;
+  bool wantsBreakfast = false;
+  bool wantsLunch = false;
+  bool wantsDinner = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,41 +49,69 @@ class _UiControlsViewState extends State<_UiControlsView> {
           })
         ),
         const SizedBox(height: 20),
-        RadioListTile(
-          title: const Text('Carro'),
-          subtitle: const Text('Viajar en Carro'),
-          value: Transportation.car,
-          groupValue: selectedTransportation, 
-          onChanged: (value) => setState(() {
-            selectedTransportation = Transportation.car;
-          })
+        ExpansionTile(
+          title: const Text('Vehiculo de Transporte'),
+          subtitle: Text('$selectedTransportation'),
+          children: [
+            RadioListTile(
+              title: const Text('Carro'),
+              subtitle: const Text('Viajar en Carro'),
+              value: Transportation.car,
+              groupValue: selectedTransportation, 
+              onChanged: (value) => setState(() {
+                selectedTransportation = Transportation.car;
+              })
+            ),
+            RadioListTile(
+              title: const Text('Avion'),
+              subtitle: const Text('Viajar en Avion'),
+              value: Transportation.plane,
+              groupValue: selectedTransportation, 
+              onChanged: (value) => setState(() {
+                selectedTransportation = Transportation.plane;
+              })
+            ),
+            RadioListTile(
+              title: const Text('Barco'),
+              subtitle: const Text('Viajar en Barco'),
+              value: Transportation.boat,
+              groupValue: selectedTransportation, 
+              onChanged: (value) => setState(() {
+                selectedTransportation = Transportation.boat;
+              })
+            ),
+            RadioListTile(
+              title: const Text('Submarino'),
+              subtitle: const Text('Viajar en Submarino'),
+              value: Transportation.submarine,
+              groupValue: selectedTransportation, 
+              onChanged: (value) => setState(() {
+                selectedTransportation = Transportation.submarine;
+              })
+            ),
+          ],
         ),
-        RadioListTile(
-          title: const Text('Avion'),
-          subtitle: const Text('Viajar en Avion'),
-          value: Transportation.plane,
-          groupValue: selectedTransportation, 
+        const SizedBox(height: 20),
+        CheckboxListTile(
+          title: const Text('Incluir Desayuno?'),
+          value: wantsBreakfast, 
           onChanged: (value) => setState(() {
-            selectedTransportation = Transportation.plane;
-          })
+            wantsBreakfast = !wantsBreakfast;
+          }),
         ),
-        RadioListTile(
-          title: const Text('Barco'),
-          subtitle: const Text('Viajar en Barco'),
-          value: Transportation.boat,
-          groupValue: selectedTransportation, 
+        CheckboxListTile(
+          title: const Text('Incluir Almuerzo?'),
+          value: wantsLunch, 
           onChanged: (value) => setState(() {
-            selectedTransportation = Transportation.boat;
-          })
+            wantsLunch = !wantsLunch;
+          }),
         ),
-        RadioListTile(
-          title: const Text('Submarino'),
-          subtitle: const Text('Viajar en Submarino'),
-          value: Transportation.submarine,
-          groupValue: selectedTransportation, 
+        CheckboxListTile(
+          title: const Text('Incluir Cena?'),
+          value: wantsDinner, 
           onChanged: (value) => setState(() {
-            selectedTransportation = Transportation.submarine;
-          })
+            wantsDinner = !wantsDinner;
+          }),
         ),
       ],
     );
