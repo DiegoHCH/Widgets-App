@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,11 +18,39 @@ final slides = <SlideInfo> [
   SlideInfo('Disfruta la comida', 'Cillum aute irure nulla reprehenderit id ex eu irure aute nulla.', 'assets/images/3.png'),
 ];
 
-class TutorialScreen extends StatelessWidget {
+class TutorialScreen extends StatefulWidget {
 
   static const name = 'tutorial';
 
   const TutorialScreen({super.key});
+
+  @override
+  State<TutorialScreen> createState() => _TutorialScreenState();
+}
+
+class _TutorialScreenState extends State<TutorialScreen> {
+
+  final PageController pageViewController = PageController();
+  bool endReached = false;
+
+  @override
+  void initState() {
+    super.initState();
+    pageViewController.addListener(() {
+      final page = pageViewController.page ?? 0;
+      if ( !endReached && page >= (slides.length - 1.5)) {
+        setState(() {
+          endReached = true;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    pageViewController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +59,7 @@ class TutorialScreen extends StatelessWidget {
       body: Stack(
         children: [
           PageView(
+            controller: pageViewController,
             physics: const BouncingScrollPhysics(),
             children: slides.map(
               (slideData) => _Slide(slideData.title, slideData.caption, slideData.imageUrl)
@@ -42,7 +72,21 @@ class TutorialScreen extends StatelessWidget {
               onPressed: () => context.pop(),
               child: const Text('Salir')
             )
+          ),
+          endReached ?
+          Positioned(
+            bottom: 30,
+            right: 30,
+            child: FadeInRight(
+              from: 15,
+              delay: const Duration(seconds: 1),
+              child: FilledButton(
+                onPressed: () => context.pop(), 
+                child: const Text('Comenzar')
+              ),
+            ),
           )
+          : const SizedBox(),
         ],
       ),
     );
